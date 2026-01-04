@@ -1,0 +1,85 @@
+body{
+  margin:0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:#f4f6f9;
+  color:#222;
+}
+
+/* HEADER */
+header{
+  background:#0f3c78;
+  color:white;
+  padding:25px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  font-size:32px;
+}
+
+header p{
+  margin:8px 0 12px;
+  font-size:15px;
+}
+
+/* WHATSAPP BUTTON */
+.wa-btn{
+  display:inline-block;
+  padding:10px 20px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:25px;
+}
+
+.wa-btn:hover{
+  background:#1da851;
+}
+
+/* MAIN CONTENT */
+.container{
+  padding:20px;
+  max-width:900px;
+  margin:auto;
+}
+
+h2{
+  background:#e6edf7;
+  padding:12px;
+  border-left:6px solid #0f3c78;
+  font-size:20px;
+}
+
+/* LIST STYLE */
+.list{
+  background:white;
+  padding:15px 25px;
+  border-radius:8px;
+  margin-bottom:25px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.list li{
+  margin:6px 0;
+  font-size:16px;
+}
+
+.list ul{
+  margin-top:6px;
+}
+
+/* FOOTER */
+footer{
+  background:#0f3c78;
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+
+footer a{
+  color:#ffeb3b;
+  text-decoration:none;
+  font-weight:bold;
+}
