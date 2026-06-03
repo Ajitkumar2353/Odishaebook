@@ -1,82 +1,531 @@
+Here is an attractive, modern HTML document that calculates Graha Power and Gunas based on manually entered planet percentages.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>ODISHAEBOOK | Notes Library</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Jyotish Graha Power | Triguna Dashboard</title>
+  <!-- Google Fonts: Modern & Clean -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      background: linear-gradient(145deg, #f1f4f9 0%, #e6eef7 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+    }
+
+    /* main glassmorphic container */
+    .calculator-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 3rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    /* header section */
+    .hero {
+      background: linear-gradient(135deg, #1F2B3C 0%, #2C3E4E 100%);
+      padding: 1.8rem 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero h1 i {
+      background: #FFD966;
+      background: linear-gradient(120deg, #FFDF85, #FFC857);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 2rem;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-top: 10px;
+      font-weight: 400;
+    }
+
+    /* main content layout */
+    .dashboard {
+      padding: 2rem 2rem 1.8rem 2rem;
+    }
+
+    /* grid for 9 grahas — modern card style */
+    .graha-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .graha-card {
+      background: #ffffffdd;
+      backdrop-filter: blur(2px);
+      background: white;
+      border-radius: 1.5rem;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: all 0.25s;
+      border: 1px solid rgba(203, 213, 225, 0.4);
+    }
+
+    .graha-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px -10px rgba(0, 0, 0, 0.12);
+      border-color: #cbd5e1;
+    }
+
+    .graha-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 1.05rem;
+    }
+
+    .graha-label i {
+      font-size: 1.4rem;
+      width: 28px;
+      color: #E67E22;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f8fafc;
+      padding: 0.3rem 0.6rem;
+      border-radius: 2rem;
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: #F39C12;
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.2);
+    }
+
+    .input-wrapper input {
+      width: 75px;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: right;
+      padding: 0.5rem 0;
+      outline: none;
+      font-family: 'Inter', monospace;
+    }
+
+    .input-wrapper span {
+      font-weight: 500;
+      color: #5b6e8c;
+      font-size: 0.9rem;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button, 
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 0.5;
+    }
+
+    /* action buttons group */
+    .action-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      padding: 0.8rem 2rem;
+      border-radius: 2.5rem;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(98deg, #2c3e50, #1a2632);
+      color: white;
+      box-shadow: 0 8px 18px -6px #1e2a36;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(98deg, #3e5a6f, #1f2e3c);
+      transform: scale(0.98);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .btn-outline {
+      background: #ffffffdd;
+      border: 1px solid #cbd5e1;
+      color: #2c3e4e;
+    }
+
+    .btn-outline:hover {
+      background: #f1f5f9;
+      border-color: #F39C12;
+      color: #b86f0c;
+    }
+
+    /* result panel — modern cards */
+    .results-panel {
+      background: #ffffffea;
+      border-radius: 2rem;
+      padding: 1.5rem 1.8rem;
+      margin-top: 0.8rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255,255,240,0.6);
+    }
+
+    .result-header {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 5px solid #F39C12;
+      padding-left: 1rem;
+      color: #1e293b;
+    }
+
+    .stats-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 170px;
+      background: #fefcf7;
+      border-radius: 1.5rem;
+      padding: 1rem 1.2rem;
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      border: 1px solid #f0e9df;
+    }
+
+    .stat-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0.8rem;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1f2b3c;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value small {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #5d6e85;
+    }
+
+    .progress-bar-bg {
+      background: #e2e8f0;
+      border-radius: 40px;
+      height: 10px;
+      width: 100%;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: 40px;
+      transition: width 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .fill-sattva { background: linear-gradient(90deg, #2E8B57, #3CB371); }
+    .fill-rajas { background: linear-gradient(90deg, #E67E22, #F39C12); }
+    .fill-tamas { background: linear-gradient(90deg, #5D3A1A, #8B5A2B); }
+    .fill-overall { background: linear-gradient(90deg, #3A7CA5, #2C5282); }
+
+    .badge-tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      background: #f1f5f9;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 8px;
+    }
+
+    footer {
+      font-size: 0.7rem;
+      text-align: center;
+      padding: 1rem;
+      color: #5b6e8c;
+      border-top: 1px solid #eef2f6;
+      background: #ffffffc9;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 1rem; }
+      .dashboard { padding: 1.5rem; }
+      .graha-card { padding: 0.6rem 1rem; }
+      .stat-value { font-size: 1.8rem; }
+      .btn { padding: 0.6rem 1.2rem; font-size: 0.85rem; }
+    }
+  </style>
+</head>
 <body>
 
-<header>
-  <h1>📘 ODISHAEBOOK</h1>
-  <p>Academic & Competitive Notes Library of Odisha</p>
+<div class="calculator-container">
+  <div class="hero">
+    <h1>
+      <i class="fas fa-chart-line"></i> 
+      Graha Power & Triguna
+      <i class="fas fa-moon"></i>
+    </h1>
+    <p>नवग्रह शक्ति • सात्त्विक, राजसिक, तामसिक विश्लेषण</p>
+  </div>
 
-  <a class="wa-btn"
-     href="https://whatsapp.com/channel/0029VbC7IrN6buMSyJUSF20V"
-     target="_blank">
-     📢 Join WhatsApp Channel
-  </a>
-</header>
+  <div class="dashboard">
+    <!-- 9 Grahas grid with icons -->
+    <div class="graha-grid" id="grahaGrid">
+      <!-- each row uses consistent id mapping -->
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-sun"></i> Surya</div><div class="input-wrapper"><input type="number" id="surya" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-moon"></i> Chandra</div><div class="input-wrapper"><input type="number" id="chandra" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-fire"></i> Mangal</div><div class="input-wrapper"><input type="number" id="mangal" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-comment-dots"></i> Budh</div><div class="input-wrapper"><input type="number" id="budh" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-chalkboard-user"></i> Guru</div><div class="input-wrapper"><input type="number" id="guru" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-heart"></i> Shukra</div><div class="input-wrapper"><input type="number" id="shukra" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-ring"></i> Shani</div><div class="input-wrapper"><input type="number" id="shani" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-dragon"></i> Rahu</div><div class="input-wrapper"><input type="number" id="rahu" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+      <div class="graha-card"><div class="graha-label"><i class="fas fa-serpent"></i> Ketu</div><div class="input-wrapper"><input type="number" id="ketu" placeholder="0" step="any" min="0" max="100" value=""><span>%</span></div></div>
+    </div>
 
-<div class="container">
+    <!-- button group -->
+    <div class="action-group">
+      <button class="btn btn-primary" id="calculateBtn"><i class="fas fa-calculator"></i> Calculate Power</button>
+      <button class="btn btn-outline" id="exampleBtn"><i class="fas fa-flask"></i> Load Example</button>
+      <button class="btn btn-outline" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset All</button>
+    </div>
 
-  <!-- +2 SECTION -->
-  <h2>📗 +2 NOTES</h2>
-  <ul class="list">
-    <li>Physics</li>
-    <li>Chemistry</li>
-    <li>Mathematics</li>
-    <li>Biology
-      <ul>
-        <li>Botany</li>
-        <li>Zoology</li>
-      </ul>
-    </li>
-  </ul>
-
-  <!-- +3 SECTION -->
-  <h2>📘 +3 (DEGREE) NOTES</h2>
-  <ul class="list">
-    <li>Physics</li>
-    <li>Chemistry</li>
-    <li>Mathematics</li>
-    <li>Botany</li>
-    <li>Zoology</li>
-  </ul>
-
-  <!-- COMPETITIVE SECTION -->
-  <h2>📕 COMPETITIVE EXAMS (ODISHA)</h2>
-  <ul class="list">
-    <li>OSSC</li>
-    <li>OSSSC</li>
-    <li>SSC</li>
-    <li>RRB</li>
-    <li>Revenue Inspector (RI)</li>
-    <li>AMIN</li>
-    <li>Excise Constable</li>
-    <li>PEO</li>
-    <li>DEO</li>
-    <li>Forest Guard</li>
-    <li>Forester</li>
-    <li>Police Constable</li>
-    <li>Librarian</li>
-    <li>Other Odisha Competitive Posts</li>
-  </ul>
-
+    <!-- results display area -->
+    <div class="results-panel" id="resultsPanel">
+      <div class="result-header">
+        <i class="fas fa-chart-simple"></i> 
+        Cosmic Analysis
+        <span class="badge-tag">Jyotish Insights</span>
+      </div>
+      <div class="stats-grid" id="statsContainer">
+        <!-- dynamically updated -->
+        <div class="stat-card">
+          <div class="stat-title"><i class="fas fa-charging-station"></i> Overall Graha Power</div>
+          <div class="stat-value" id="overallValue">0.0<small>%</small></div>
+          <div class="progress-bar-bg"><div class="progress-fill fill-overall" id="overallFill" style="width:0%"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title"><i class="fas fa-feather-alt"></i> Sattva Guna <span style="font-size:10px;">(Purity/Harmony)</span></div>
+          <div class="stat-value" id="sattvaValue">0.0<small>%</small></div>
+          <div class="progress-bar-bg"><div class="progress-fill fill-sattva" id="sattvaFill" style="width:0%"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title"><i class="fas fa-bolt"></i> Rajas Guna <span style="font-size:10px;">(Passion/Action)</span></div>
+          <div class="stat-value" id="rajasValue">0.0<small>%</small></div>
+          <div class="progress-bar-bg"><div class="progress-fill fill-rajas" id="rajasFill" style="width:0%"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title"><i class="fas fa-mountain"></i> Tamas Guna <span style="font-size:10px;">(Stability/Inertia)</span></div>
+          <div class="stat-value" id="tamasValue">0.0<small>%</small></div>
+          <div class="progress-bar-bg"><div class="progress-fill fill-tamas" id="tamasFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div style="margin-top: 16px; font-size: 0.75rem; color: #546e7a; text-align: center; border-top: 1px dashed #e2e8f0; padding-top: 12px;">
+        <i class="fas fa-chart-line"></i> Guru + Chandra + Surya → Sattva &nbsp;&nbsp;|&nbsp;&nbsp; Budh + Shukra + Surya → Rajas &nbsp;&nbsp;|&nbsp;&nbsp; Shani + Rahu + Ketu → Tamas
+      </div>
+    </div>
+  </div>
+  <footer>
+    <i class="fas fa-star-of-life"></i> प्रविष्ट प्रतिशत के आधार पर ग्रह ऊर्जा एवं त्रिगुण विश्लेषण
+  </footer>
 </div>
 
-<footer>
-  <p>
-    📢 WhatsApp Channel:
-    <a href="https://whatsapp.com/channel/0029VbC7IrN6buMSyJUSF20V"
-       target="_blank">
-       Join ODISHAEBOOK
-    </a>
-  </p>
-  <p>© 2026 ODISHAEBOOK | Educational Purpose Only</p>
-</footer>
+<script>
+  // Helper: get numeric value from input ID, treat empty/invalid as 0, clamp 0-100 optionally.
+  function getPlanetValue(id) {
+    const el = document.getElementById(id);
+    if (!el) return 0;
+    let val = parseFloat(el.value);
+    if (isNaN(val)) val = 0;
+    // ensure reasonable range but not limit hard for calculations, but show as it is.
+    return Math.min(100, Math.max(0, val));
+  }
 
+  // Core calculation and UI update
+  function calculateAndDisplay() {
+    // fetch all graha values
+    const surya = getPlanetValue('surya');
+    const chandra = getPlanetValue('chandra');
+    const mangal = getPlanetValue('mangal');
+    const budh = getPlanetValue('budh');
+    const guru = getPlanetValue('guru');
+    const shukra = getPlanetValue('shukra');
+    const shani = getPlanetValue('shani');
+    const rahu = getPlanetValue('rahu');
+    const ketu = getPlanetValue('ketu');
+
+    // 1) Overall Power = average of 9 planets
+    const arr = [surya, chandra, mangal, budh, guru, shukra, shani, rahu, ketu];
+    const sum = arr.reduce((acc, val) => acc + val, 0);
+    const overallAvg = sum / 9;
+    
+    // 2) Triguna formulas (exactly as given)
+    // Sattva = Guru*0.4 + Chandra*0.3 + Surya*0.3
+    const sattva = (guru * 0.4) + (chandra * 0.3) + (surya * 0.3);
+    // Rajas = Budh*0.3 + Shukra*0.4 + Surya*0.3
+    const rajas = (budh * 0.3) + (shukra * 0.4) + (surya * 0.3);
+    // Tamas = Shani*0.4 + Rahu*0.3 + Ketu*0.3
+    const tamas = (shani * 0.4) + (rahu * 0.3) + (ketu * 0.3);
+    
+    // Update textual values with 1 decimal
+    document.getElementById('overallValue').innerHTML = overallAvg.toFixed(1) + '<small>%</small>';
+    document.getElementById('sattvaValue').innerHTML = sattva.toFixed(1) + '<small>%</small>';
+    document.getElementById('rajasValue').innerHTML = rajas.toFixed(1) + '<small>%</small>';
+    document.getElementById('tamasValue').innerHTML = tamas.toFixed(1) + '<small>%</small>';
+    
+    // Update progress bars (width capped at 100%, though triguna max 100 anyway)
+    const overallPercent = Math.min(100, Math.max(0, overallAvg));
+    const sattvaPercent = Math.min(100, Math.max(0, sattva));
+    const rajasPercent = Math.min(100, Math.max(0, rajas));
+    const tamasPercent = Math.min(100, Math.max(0, tamas));
+    
+    document.getElementById('overallFill').style.width = overallPercent + '%';
+    document.getElementById('sattvaFill').style.width = sattvaPercent + '%';
+    document.getElementById('rajasFill').style.width = rajasPercent + '%';
+    document.getElementById('tamasFill').style.width = tamasPercent + '%';
+  }
+  
+  // Reset all input fields to empty string and update display to zero
+  function resetAllFields() {
+    const planetIds = ['surya', 'chandra', 'mangal', 'budh', 'guru', 'shukra', 'shani', 'rahu', 'ketu'];
+    for (let id of planetIds) {
+      const inputEl = document.getElementById(id);
+      if (inputEl) inputEl.value = '';
+    }
+    // after reset, recalc -> all zero
+    calculateAndDisplay();
+  }
+  
+  // Load example values: Surya 67, Chandra 82, Guru 90, Shani 45 ; others left blank (0)
+  function loadExampleValues() {
+    // clear everything first
+    const planetIds = ['surya', 'chandra', 'mangal', 'budh', 'guru', 'shukra', 'shani', 'rahu', 'ketu'];
+    for (let id of planetIds) {
+      document.getElementById(id).value = '';
+    }
+    // set example fields
+    document.getElementById('surya').value = '67';
+    document.getElementById('chandra').value = '82';
+    document.getElementById('guru').value = '90';
+    document.getElementById('shani').value = '45';
+    // optional: set others remain empty (treated 0)
+    // also to match full demonstration set Mangal, Budh, Shukra, Rahu, Ketu empty – will be zero.
+    // show instantly calculation
+    calculateAndDisplay();
+  }
+  
+  // attach event listeners, page load init
+  document.addEventListener('DOMContentLoaded', () => {
+    // set initial calculation (zero state)
+    calculateAndDisplay();
+    
+    // Buttons
+    const calcBtn = document.getElementById('calculateBtn');
+    if (calcBtn) calcBtn.addEventListener('click', calculateAndDisplay);
+    
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) resetBtn.addEventListener('click', resetAllFields);
+    
+    const exampleBtn = document.getElementById('exampleBtn');
+    if (exampleBtn) exampleBtn.addEventListener('click', loadExampleValues);
+    
+    // optional: auto update on any input change? Not needed, but we can add graceful "live" if desired.
+    // but per brief calculate on button click; still extra usability: if user wants live they can press button.
+    // just for premium feel: pressing "Enter" on any input triggers calculate? not mandatory but nice.
+    const allInputs = document.querySelectorAll('input[type="number"]');
+    allInputs.forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          calculateAndDisplay();
+        }
+      });
+      // also blur auto? maybe not but comfortable: blur triggers calculate? optional but too intrusive but nice.
+      // To match original expectations (button) but we also allow blur improvement.
+      input.addEventListener('blur', () => {
+        let val = parseFloat(input.value);
+        if (input.value !== '' && isNaN(val)) {
+          input.value = '';
+        } else if (val < 0) input.value = 0;
+        else if (val > 100) input.value = 100;
+        // we don't auto calculate on every blur to avoid annoying, but stays as is until calculate.
+        // but since user might expect consistency, we recalc automatically on blur? not mandatory.
+        // but for better UX I'll also recalc on blur (makes it dynamic like a modern tool).
+        // However the original design had a button; but attractive design can include both. But NOT override core.
+        // Let's do moderate: recalc on field change? only when user leaves field, but to avoid performance, call calculate.
+        // For continuity with expected click, I'll add recalculation on blur for more responsive feel:
+        calculateAndDisplay();
+      });
+    });
+  });
+</script>
 </body>
-  </html>
+</html>
+```
